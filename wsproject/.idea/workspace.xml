@@ -53,7 +53,7 @@
         <entry file="file://$PROJECT_DIR$/apps_websocket/chat/views.py">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="885">
-              <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+              <caret line="21" column="8" selection-start-line="21" selection-start-column="8" selection-end-line="21" selection-end-column="8" />
               <folding>
                 <element signature="e#26#51#0" expanded="true" />
               </folding>
@@ -74,8 +74,18 @@
       <file leaf-file-name="wsgi_websocket.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/wsproject/wsgi_websocket.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.15405777" vertical-offset="158" max-vertical-offset="885">
+            <state vertical-scroll-proportion="0.19532324" vertical-offset="128" max-vertical-offset="855">
               <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/wsproject/settings.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="315" max-vertical-offset="1410">
+              <caret line="43" column="0" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -135,13 +145,13 @@
         <option value="$PROJECT_DIR$/wsproject/apps/index/templates/chat.html" />
         <option value="$PROJECT_DIR$/wsproject/apps/index/views.py" />
         <option value="$PROJECT_DIR$/apps-websocket/chat/views.py" />
-        <option value="$PROJECT_DIR$/wsproject/settings.py" />
         <option value="$PROJECT_DIR$/wsproject/wsgi.py" />
         <option value="$PROJECT_DIR$/wsproject/urls.py" />
         <option value="$PROJECT_DIR$/apps/index/templates/chat.html" />
         <option value="$PROJECT_DIR$/apps/index/views.py" />
-        <option value="$PROJECT_DIR$/wsproject/wsgi_websocket.py" />
         <option value="$PROJECT_DIR$/apps_websocket/chat/views.py" />
+        <option value="$PROJECT_DIR$/wsproject/settings.py" />
+        <option value="$PROJECT_DIR$/wsproject/wsgi_websocket.py" />
       </list>
     </option>
   </component>
@@ -542,14 +552,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/wsproject/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="180" max-vertical-offset="1410">
-          <caret line="41" column="26" selection-start-line="41" selection-start-column="26" selection-end-line="41" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/wsproject/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="360">
@@ -650,10 +652,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/wsproject/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="315" max-vertical-offset="1410">
+          <caret line="43" column="0" selection-start-line="43" selection-start-column="0" selection-end-line="43" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/apps_websocket/chat/views.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="885">
-          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+          <caret line="21" column="8" selection-start-line="21" selection-start-column="8" selection-end-line="21" selection-end-column="8" />
           <folding>
             <element signature="e#26#51#0" expanded="true" />
           </folding>
@@ -670,7 +680,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/wsproject/wsgi_websocket.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.15405777" vertical-offset="158" max-vertical-offset="885">
+        <state vertical-scroll-proportion="0.19532324" vertical-offset="128" max-vertical-offset="855">
           <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
           <folding />
         </state>
