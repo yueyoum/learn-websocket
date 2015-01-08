@@ -7,11 +7,11 @@
 import gevent.monkey
 gevent.monkey.patch_all()
 
+from gevent.queue import Queue
 from gevent import select
 
 import uwsgi
 import redis
-import sys
 
 
 with open("chat_index.html") as f:
@@ -40,47 +40,37 @@ def application(env, sr):
         client_amount = r.incr('demo-client-amount')
         uwsgi.websocket_send("{0} 人在线".format(client_amount))
 
-
         channel = r.pubsub()
         channel.subscribe('demo')
-
-        # def _read_web_socket():
-        #     data = uwsgi.websocket_recv()
-        #     print "Got data:", data
-        #     r.publish('demo', data)
-        #
-        # def _get_from_channel():
-        #     msg = channel.get_message()
-        #     print "Channle Msg:", msg
-        #     uwsgi.websocket_send(msg['data'])
-        #
-        # jobs = [gevent.spawn(_read_web_socket), gevent.spawn(_get_from_channel)]
-        # gevent.joinall(jobs)
 
         websocket_fd = uwsgi.connection_fd()
         redis_fd = channel.connection._sock.fileno()
 
+
         try:
             while True:
-                # uwsgi.wait_fd_read(websocket_fd, 1)
-                # uwsgi.wait_fd_read(redis_fd, 1)
-                # uwsgi.suspend()
-
                 print 'before select'
-                rable, wable, xable = select.select([websocket_fd, redis_fd], [], [], timeout=5)
+                rable, wable, xable = select.select([websocket_fd, redis_fd], [], [], timeout=4)
                 print 'after select'
+
+                if not rable:
+                    uwsgi.websocket_recv_nb()
+                    print "Just ping/pong"
+                    continue
 
                 for rfd in rable:
                     if rfd == websocket_fd:
-                        data = uwsgi.websocket_recv()
-                        print "WebSocket:", data
-                        r.publish('demo', data)
+                        data = uwsgi.websocket_recv_nb()
+                        if data:
+                            print "WebSocket:", data
+                            r.publish('demo', data)
 
                     elif rfd == redis_fd:
                         print "start get_message"
                         msg = channel.get_message()
-                        print "Channel:", msg
-                        uwsgi.websocket_send(str(msg['data']))
+                        if msg:
+                            print "Channel:", msg
+                            uwsgi.websocket_send(str(msg['data']))
         except Exception as e:
             print "==== Error ===="
             print e
@@ -91,23 +81,3 @@ def application(env, sr):
 
 
 
-            # fd = uwsgi.ready_fd()
-            # if fd > -1:
-            #     if fd == websocket_fd:
-            #         msg = uwsgi.websocket_recv_nb()
-            #         if msg:
-            #             r.publish('foobar', msg)
-            #     elif fd == redis_fd:
-            #         msg = channel.parse_response()
-            #         print(msg)
-            #         # only interested in user messages
-            #         t = 'message'
-            #         if sys.version_info[0] > 2:
-            #             t = b'message'
-            #         if msg[0] == t:
-            #             uwsgi.websocket_send("[%s] %s" % (time.time(), msg))
-            # else:
-            #     # on timeout call websocket_recv_nb again to manage ping/pong
-            #     msg = uwsgi.websocket_recv_nb()
-            #     if msg:
-            #         r.publish('foobar', msg)
