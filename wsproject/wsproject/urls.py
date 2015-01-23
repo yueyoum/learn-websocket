@@ -13,6 +13,6 @@ urlpatterns = [
 
     url(r'^$', apps.index.views.index),
     url(r'^chat/$', apps.index.views.chat),
-    url(r'^ws/chat/$', apps_websocket.chat.views.chat),
+    url(r'^ws/chat/$', apps_websocket.chat.views.Chat.as_view()),
 
 ]

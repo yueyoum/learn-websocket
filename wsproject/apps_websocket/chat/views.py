@@ -1,53 +1,33 @@
 #! -*- coding: utf-8 -*-
 
-from gevent import select
-import redis
+
+import arrow
+
+from wsproject.wsgi_websocket import WebSocketView
+
+now = lambda : arrow.utcnow().to('Asia/Shanghai').format('HH:mm:ss')
+def log(text):
+    print "{0}: {1}".format(now(), text)
 
 
-r = redis.Redis()
+class Chat(WebSocketView):
+    def on_connect(self):
+        print "on connect"
+        client_amount = self.redis.incr('demo-client-amount')
+        self.send("{0} 人在线".format(client_amount))
+        self.publish_global(now() + " 有人上线了")
 
-def chat(request):
-    import uwsgi
+    def on_websocket_data(self, data):
+        print "websocket data:", data
+        self.publish_global(data)
 
-    client_amount = r.incr('demo-client-amount')
-    uwsgi.websocket_send("{0} 人在线".format(client_amount))
+    def on_channel_data(self, data):
+        print "channel data", data
+        data = str(data['data'])
+        self.send(data)
 
-    channel = r.pubsub()
-    channel.subscribe('demo')
-
-    websocket_fd = uwsgi.connection_fd()
-    redis_fd = channel.connection._sock.fileno()
-
-
-    try:
-        while True:
-            print 'before select'
-            rable, wable, xable = select.select([websocket_fd, redis_fd], [], [], timeout=4)
-            print 'after select'
-
-            if not rable:
-                uwsgi.websocket_recv_nb()
-                print "Just ping/pong"
-                continue
-
-            for rfd in rable:
-                if rfd == websocket_fd:
-                    data = uwsgi.websocket_recv_nb()
-                    if data:
-                        print "WebSocket:", data
-                        r.publish('demo', data)
-
-                elif rfd == redis_fd:
-                    print "start get_message"
-                    msg = channel.get_message()
-                    if msg:
-                        print "Channel:", msg
-                        uwsgi.websocket_send(str(msg['data']))
-    except Exception as e:
-        print "==== Error ===="
-        print e
-    finally:
-        r.incr('demo-client-amount', -1)
-        r.publish('demo', '有人下线')
-        channel.unsubscribe('demo')
+    def on_connection_lost(self):
+        print "connection lost"
+        self.redis.incr('demo-client-amount', -1)
+        self.publish_global(now() + " 有人下线了")
 
